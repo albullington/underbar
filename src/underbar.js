@@ -102,12 +102,24 @@
   _.uniq = function(array, isSorted, iterator) {
     var newArray = [];
 
-    return _.each(array, function(item) {
-      var checkIndex = _.indexOf(newArray, item);
-      if (checkIndex === -1) {
-        newArray.push(item);
-      }
-    });
+    if (!isSorted) {
+      _.each(array, function(element) {
+        var index = _.indexOf(newArray, element);
+        if (index === -1) {
+          newArray.push(element);
+        }
+      });
+    } else {
+      _.each(array, function(element) {
+        var index = _.indexOf(newArray, element);
+          if (index === -1) {
+            var lastValue = _.last(newArray, newArray.length);
+            if (lastValue !== element) {
+              newArray.push(element);
+            }
+          }
+      });
+    }
     return newArray;
   };
 
@@ -353,6 +365,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var newArray = array.slice();
+
+    for (var i = newArray.length - 1; i > 0; i -= 1) {
+      var randomIndex = Math.floor(Math.random() * (i));
+      var temporaryValue = newArray[i];
+      newArray[i] = newArray[randomIndex];
+      newArray[randomIndex] = temporaryValue;
+    }
+    return newArray;
   };
 
 
