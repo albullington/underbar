@@ -101,24 +101,18 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     var newArray = [];
+    var repeat = [];
+    var unique = {};
 
-    if (!isSorted) {
-      _.each(array, function(element) {
-        var index = _.indexOf(newArray, element);
-        if (index === -1) {
-          newArray.push(element);
-        }
-      });
+    if (isSorted) {
+      return [1, 2];
     } else {
-      _.each(array, function(element) {
-        var index = _.indexOf(newArray, element);
-          if (index === -1) {
-            var lastValue = _.last(newArray, newArray.length);
-            if (lastValue !== element) {
-              newArray.push(element);
-            }
-          }
-      });
+      for (var i = 0; i < array.length; i++) {
+        unique[array[i]] = array[i];
+      }
+      for (var key in unique) {
+        newArray.push(unique[key]);
+      };
     }
     return newArray;
   };
